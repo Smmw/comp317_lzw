@@ -1,4 +1,9 @@
-comp317_lzw
-===========
+# LZW Compressor
+COMP317-14A
 
-LZW Implementation including encoder/decoder and bit packer/unpacker
+### Introduction
+LZW Implementation including encoder/decoder and bit packer/unpacker.
+
+### Authors
+* Dan Collins
+* Severin Mahoney-Marsh
