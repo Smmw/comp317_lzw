@@ -6,9 +6,9 @@
  * 1181754
  */
 public class SuffixTrie<T>{
-	Node root;
+	Node<T> root;
 	// For steping/walking I havn't named the method yet
-	Node pos;
+	Node<T> pos;
 	// The next avaliable index
 	int index = 0;
 	// Stops the trie from growing forever
@@ -18,18 +18,39 @@ public class SuffixTrie<T>{
 	 * Makes a SuffixTrie with no data
 	 */
 	public SuffixTrie(int limit){
-		self.limit = limit;
+		this.limit = limit;
 	}
 
 	/*
 	 * Adds a node to the trie at the current position
 	 */
 	public void Add(T data){
+		Node<T> n = new Node<T>(data, this.index);
+		this.index += 1;
 		// Check if no root
-		// If so add node as root, set pos to root, return
+		// If so add node as root, return
+		if (root == null){
+			root = n;
+		// Check if pos is null
+		// If so add node to leftest sister of root
+		} else if (pos == null){
+			Node<T> leftest = root;
+			while (leftest.getLeft() != null){
+				leftest = leftest.getLeft();
+			}
+			leftest.setLeft(n);
 		// Check if pos has no child
 		// If so add child
+		} else if (pos.getDown() == null){
+			pos.setLeft(n);
 		// Else go to leftest sister of child and add
+		} else {
+			Node<T> leftest = pos.getDown();
+			while (leftest.getLeft() != null){
+				leftest = leftest.getLeft();
+			}
+			leftest.setLeft(n);
+		}
 	}
 
 	/*
@@ -41,17 +62,19 @@ public class SuffixTrie<T>{
 		// Pos is child byte
 		// Return false, did not trip
 		// Else return true, did trip
+		return true;
 	}
 
 	/*
 	 * Checks if a node has a child with the value data
 	 */
-	public boolean hasChild(Node n, T data){
+	public boolean hasChild(Node<T> n, T data){
 		// Child is n.down
 		// While child not null
 		// If child.data is data return true
 		// End
 		// Return false
+		return false;
 	}
 
 	/**
@@ -63,8 +86,8 @@ public class SuffixTrie<T>{
 	 */
 	private class Node<T>{
 		T data;
-		Node left;
-		Node down;
+		Node<T> left;
+		Node<T> down;
 		int index;
 		
 		/*
@@ -85,7 +108,7 @@ public class SuffixTrie<T>{
 		/*
 		 * Sets the node's left node
 		 */
-		public void setLeft(Node left){
+		public void setLeft(Node<T> left){
 			// Helpful sanity check
 			// XXX: Remove this when everything is tested
 			if (this.left != null){
@@ -97,14 +120,14 @@ public class SuffixTrie<T>{
 		/*
 		 * Gets the left node
 		 */
-		public Node getLeft(){
+		public Node<T> getLeft(){
 			return this.left;
 		}
 
 		/* 
 		 * Sets the nodes down node
 		 */
-		public void setDown(Node down){
+		public void setDown(Node<T> down){
 			// Helpful sanity check
 			// XXX: Remove this when everything is tested
 			if (this.down != null){
@@ -117,7 +140,7 @@ public class SuffixTrie<T>{
 		/*
 		 * Gets the down node i.e. the child node
 		 */
-		public Node getDown(){
+		public Node<T> getDown(){
 			return this.down;
 		}
 
