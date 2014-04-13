@@ -54,6 +54,14 @@ public class SuffixTrie<T>{
 	}
 
 	/*
+	 * Used to reset the position for stepping and adding
+	 * Since I decided not to have a root node it is nessicary to use this
+	 * before you start stepping
+	 */
+	public void Reset(){
+		this.pos = this.root;
+	}
+	/*
 	 * Used to walk through the trie
 	 */
 	public boolean Step(T data){
