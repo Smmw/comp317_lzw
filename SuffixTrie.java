@@ -24,7 +24,7 @@ public class SuffixTrie<T>{
 	/*
 	 * Adds a node to the trie at the current position
 	 */
-	public void Add(T data){
+	public void add(T data){
 		Node<T> n = new Node<T>(data, this.index);
 		this.index += 1;
 		// Check if no root
@@ -58,13 +58,13 @@ public class SuffixTrie<T>{
 	 * Since I decided not to have a root node it is nessicary to use this
 	 * before you start stepping
 	 */
-	public void Reset(){
+	public void reset(){
 		this.pos = this.root;
 	}
 	/*
 	 * Used to walk through the trie
 	 */
-	public boolean Step(T data){
+	public boolean step(T data){
 		// If pos is null throw hissy fit
 		// If pos has child data
 		// Pos is child byte
