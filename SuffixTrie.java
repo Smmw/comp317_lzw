@@ -90,6 +90,23 @@ public class SuffixTrie<T>{
 		return false;
 	}
 
+	/*
+	 * Gets a child of a node
+	 */
+	public Node<T> getChild(Node<T> n, T data){
+		// Child is n.down
+		Node<T> child = n.getDown();
+		// While child not null
+		while (child != null){
+			// If child.data is data return true
+			if (child.getData().equals(data)){
+				return child;
+			}
+		}
+		// Return false
+		return null;
+	}
+
 	/**
 	 * A node for the suffix trie
 	 * Will be root, internal, or leaf node
