@@ -63,6 +63,10 @@ public class SuffixTrie<T>{
 	 * Used to walk through the trie
 	 */
 	public boolean step(T data){
+		// Do something sensible when there is no data
+		if (root == null){
+			return true;
+		}
 		// If pos is null set pos to root
 		pos = pos == null ? root: pos;
 		// If pos has child data
