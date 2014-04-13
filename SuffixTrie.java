@@ -78,9 +78,14 @@ public class SuffixTrie<T>{
 	 */
 	public boolean hasChild(Node<T> n, T data){
 		// Child is n.down
+		Node<T> child = n.getDown();
 		// While child not null
-		// If child.data is data return true
-		// End
+		while (child != null){
+			// If child.data is data return true
+			if (child.getData().equals(data)){
+				return true;
+			}
+		}
 		// Return false
 		return false;
 	}
