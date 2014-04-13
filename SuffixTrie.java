@@ -55,8 +55,6 @@ public class SuffixTrie<T>{
 
 	/*
 	 * Used to reset the position for stepping and adding
-	 * Since I decided not to have a root node it is nessicary to use this
-	 * before you start stepping
 	 */
 	public void reset(){
 		this.pos = this.root;
@@ -65,12 +63,19 @@ public class SuffixTrie<T>{
 	 * Used to walk through the trie
 	 */
 	public boolean step(T data){
-		// If pos is null throw hissy fit
+		// If pos is null set pos to root
+		pos = pos == null ? root: pos;
 		// If pos has child data
-		// Pos is child byte
-		// Return false, did not trip
-		// Else return true, did trip
-		return true;
+		Node<T> nPos = this.getChild(pos, data);
+		if (nPos != null){
+			// Pos is child byte
+			pos = nPos;
+			// Return false, did not trip
+			return false;
+		} else {
+			// Else return true, did trip
+			return true;
+		}
 	}
 
 	/*
