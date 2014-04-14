@@ -12,6 +12,7 @@ public class SuffixTrie<T>{
 	// The next avaliable index
 	int index = 0;
 	// Stops the trie from growing forever
+	// TODO: Implement Limit
 	int limit;
 	
 	/*
