@@ -57,7 +57,7 @@ public class SuffixTrie<T>{
 	 * Used to reset the position for stepping and adding
 	 */
 	public void reset(){
-		this.pos = this.root;
+		this.pos = null;
 	}
 	/*
 	 * Used to walk through the trie
@@ -67,13 +67,13 @@ public class SuffixTrie<T>{
 		if (root == null){
 			return true;
 		}
-		// If pos is null set pos to root
-		pos = pos == null ? root: pos;
+		// If child is null set child to root
+		Node<T> child = pos == null ? root: pos.getDown();
+		child = this.getChild(child, data);
 		// If pos has child data
-		Node<T> nPos = this.getChild(pos, data);
-		if (nPos != null){
+		if (child != null){
 			// Pos is child byte
-			pos = nPos;
+			pos = child;
 			// Return false, did not trip
 			return false;
 		} else {
