@@ -82,6 +82,13 @@ public class SuffixTrie<T>{
 		}
 	}
 
+	/* 
+	 * Gets the index of the position
+	 */
+	public int getIndex(){
+		return pos.getIndex();
+	}
+
 	/*
 	 * Checks if a node has a child with the value data
 	 */
