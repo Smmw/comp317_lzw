@@ -29,6 +29,7 @@ public class Encoder{
 			}
 		} else if (args.length != 0){
 			System.err.println("The only valid argument is -b maxnumbits");
+			return;
 		}
 
 		// Do LZW
