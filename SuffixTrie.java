@@ -43,7 +43,7 @@ public class SuffixTrie<T>{
 		// Check if pos has no child
 		// If so add child
 		} else if (pos.getDown() == null){
-			pos.setLeft(n);
+			pos.setDown(n);
 		// Else go to leftest sister of child and add
 		} else {
 			Node<T> leftest = pos.getDown();
@@ -70,7 +70,7 @@ public class SuffixTrie<T>{
 		}
 		// If child is null set child to root
 		Node<T> child = pos == null ? root: pos.getDown();
-		child = this.getChild(child, data);
+		child = this.getChild(pos, data);
 		// If pos has child data
 		if (child != null){
 			// Pos is child byte
@@ -94,8 +94,8 @@ public class SuffixTrie<T>{
 	 * Checks if a node has a child with the value data
 	 */
 	public boolean hasChild(Node<T> n, T data){
-		// Child is n.down
-		Node<T> child = n.getDown();
+		// Child is n.down unless n is null, then child is root
+		Node<T> child = n == null ? root : n.getDown();
 		// While child not null
 		while (child != null){
 			// If child.data is data return true
@@ -111,13 +111,15 @@ public class SuffixTrie<T>{
 	 * Gets a child of a node
 	 */
 	public Node<T> getChild(Node<T> n, T data){
-		// Child is n.down
-		Node<T> child = n.getDown();
+		// Child is n.down unless n is null, then child is root
+		Node<T> child = n == null ? root : n.getDown();
 		// While child not null
 		while (child != null){
 			// If child.data is data return true
 			if (child.getData().equals(data)){
 				return child;
+			} else {
+				child = child.getLeft();
 			}
 		}
 		// Return false
