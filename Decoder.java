@@ -34,9 +34,11 @@ public class Decoder{
 		}
 
 		// Undo LZW
-		// Initialise dictionary with all bytes
+		// Calculate the limit on dictionary entries
 		// -2 as there is a reserved phrase incase the BitPacker wants it
-		ArrayList<Pair<Integer, Byte>> d = makeDictionary((int)Math.pow(2, maxBits)-2);
+		int limit = (int)Math.pow(2, maxBits)-2;
+		// Initialise dictionary with all bytes
+		ArrayList<Pair<Integer, Byte>> d = makeDictionary(limit);
 		// The input
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		// A stack of sorts for the bytes
@@ -53,6 +55,11 @@ public class Decoder{
 				if (value < d.size()){
 					p = d.get(value);
 				} else {
+					// Check if the dictionary is full
+					if (d.size() >= limit){
+						// This shouldn't have happened!
+						throw new RuntimeException("The encoder is using a higher maxnumbits value!");
+					}
 					// This is the index we havn't added yet.
 					// Add it
 					d.add(new Pair<Integer, Byte>(lastValue, lastFirstByte));
@@ -68,7 +75,7 @@ public class Decoder{
 				// Set last first byte
 				lastFirstByte = bytes.getLast();
 				// Check if a new pair needs to be added to the dictionary
-				if (lastValue >= 0){
+				if (lastValue >= 0 && d.size() < limit){
 					d.add(new Pair<Integer, Byte>(lastValue, lastFirstByte));
 				}
 				// Output data for value
