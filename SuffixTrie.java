@@ -26,6 +26,10 @@ public class SuffixTrie<T>{
 	 * Adds a node to the trie at the current position
 	 */
 	public void add(T data){
+		// Make sure the trie can't outgrow the limit
+		if (this.index >= this.limit){
+			return;
+		}
 		Node<T> n = new Node<T>(data, this.index);
 		this.index += 1;
 		// Check if no root
