@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 /**
  * Reads strings from standard in
  * Decompresses them with LZW using bytes as symbols
@@ -32,13 +35,58 @@ public class Decoder{
 
 		// Undo LZW
 		// Initialise dictionary with all bytes
-
-		// Read a value
-		// While not done
-		// Output data for value
-		// Read new value
-		// Add start of new value's data to end of new dictionary entry for value
-		// Go to top of loop with new value
+		// -2 as there is a reserved phrase incase the BitPacker wants it
+		ArrayList<Pair<Integer, Byte>> d = makeDictionary((int)Math.pow(2, maxBits)-2);
+		// The input
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		// A stack of sorts for the bytes
+		LinkedList<Byte> bytes = new LinkedList<Byte>();
+		try{
+			// Read a value
+			int value = Integer.parseInt(in.readLine());
+			int lastValue = -1;
+			Byte lastFirstByte = (byte)0;
+			// While not done
+			while (value >= 0){
+				// Get data for value
+				Pair<Integer, Byte> p;
+				if (value < d.size()){
+					p = d.get(value);
+				} else {
+					// This is the index we havn't added yet.
+					// Add it
+					d.add(new Pair<Integer, Byte>(lastValue, lastFirstByte));
+					// Make sure you don't add it again
+					lastValue = -1;
+					// Go on as normal
+					p = d.get(value);
+				}
+				do {
+					bytes.addLast(p.getRight());
+					p = p.getLeft() != null? d.get(p.getLeft()) : null;
+				} while (p != null);
+				// Set last first byte
+				lastFirstByte = bytes.getLast();
+				// Check if a new pair needs to be added to the dictionary
+				if (lastValue >= 0){
+					d.add(new Pair<Integer, Byte>(lastValue, lastFirstByte));
+				}
+				// Output data for value
+				while (bytes.size() > 0){
+					System.out.write(bytes.removeLast());
+				}
+				// Read new value
+				lastValue = value;
+				value = Integer.parseInt(in.readLine());
+				// Go to top of loop with new value
+			}
+		} catch (Exception e){
+			// Print unfun message
+			System.err.println("A fatal error has occured.");
+			// Drive it home
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	/*
