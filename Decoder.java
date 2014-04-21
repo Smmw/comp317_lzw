@@ -82,9 +82,10 @@ public class Decoder{
 				while (bytes.size() > 0){
 					System.out.write(bytes.removeLast());
 				}
-				// Read new value
+				// Read new value, replace null with -1 to tell loop to end
 				lastValue = value;
-				value = Integer.parseInt(in.readLine());
+				String temp = in.readLine();
+				value = temp == null ? -1 : Integer.parseInt(temp);
 				// Go to top of loop with new value
 			}
 		} catch (Exception e){
@@ -96,6 +97,8 @@ public class Decoder{
 			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
+		// Flush the output stream
+		System.out.flush();
 	}
 
 	/*
