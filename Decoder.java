@@ -56,7 +56,7 @@ public class Decoder{
 					p = d.get(value);
 				} else {
 					// Check if the dictionary is full
-					if (d.size() >= limit){
+					if (d.size() > limit){
 						// This shouldn't have happened!
 						throw new RuntimeException("The encoder is using a higher maxnumbits value!");
 					}

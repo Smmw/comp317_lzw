@@ -27,7 +27,7 @@ public class SuffixTrie<T>{
 	 */
 	public void add(T data){
 		// Make sure the trie can't outgrow the limit
-		if (this.index >= this.limit){
+		if (this.index > this.limit){
 			return;
 		}
 		Node<T> n = new Node<T>(data, this.index);
