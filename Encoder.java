@@ -38,14 +38,14 @@ public class Encoder{
 		SuffixTrie<Byte> trie = generateTrie((int)Math.pow(2, maxBits)-2);
 		// While not done
 		try {
+			Byte b = (byte)System.in.read();
 			while (System.in.available() > 0){
 				// Follow bytes untill they diverge from the trie
-				Byte b = (byte)System.in.read();
 				while (!trie.step(b)){
 					b = (byte)System.in.read();
 				}
 				// Output number from the last node on the trie
-				System.out.println(Integer.toString(trie.getIndex()));
+				System.out.printf("%d%n", trie.getIndex());
 				// Add the mis-matching byte to the node on the trie
 				trie.add(b);
 				// Go to top of loop with mis-matching byte
