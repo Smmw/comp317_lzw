@@ -39,10 +39,16 @@ public class Encoder{
 		// While not done
 		try {
 			Byte b = (byte)System.in.read();
+			boolean cleanBreak = false;
 			while (System.in.available() > 0){
 				// Follow bytes untill they diverge from the trie
 				while (!trie.step(b)){
-					b = (byte)System.in.read();
+					int temp = System.in.read();
+					if (temp == -1){
+						cleanBreak = true;
+						break;
+					}
+					b = (byte)temp;
 				}
 				// Output number from the last node on the trie
 				System.out.printf("%d%n", trie.getIndex());
@@ -52,11 +58,18 @@ public class Encoder{
 				// TODO: Throw away trie when compression is bad
 				trie.reset();
 			}
+			// Handle an edge case on end of stream
+			if (!cleanBreak){
+				trie.reset();
+				trie.step(b);
+				System.out.printf("%d%n", trie.getIndex());
+			}
 		} catch (IOException e){
 			System.err.println("Alas I have been slain by an IO error.");
 			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
+		System.out.flush();
 	}
 
 	/*
