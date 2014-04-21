@@ -56,7 +56,7 @@ public class Decoder{
 					p = d.get(value);
 				} else {
 					// Check if the dictionary is full
-					if (d.size() > limit){
+					if (d.size() >= limit){
 						// This shouldn't have happened!
 						throw new RuntimeException("The encoder is using a higher maxnumbits value!");
 					}
@@ -75,7 +75,7 @@ public class Decoder{
 				// Set last first byte
 				lastFirstByte = bytes.getLast();
 				// Check if a new pair needs to be added to the dictionary
-				if (lastValue >= 0 && d.size() < limit){
+				if (lastValue >= 0 && d.size() <= limit){
 					d.add(new Pair<Integer, Byte>(lastValue, lastFirstByte));
 				}
 				// Output data for value
@@ -99,6 +99,7 @@ public class Decoder{
 		}
 		// Flush the output stream
 		System.out.flush();
+		System.err.printf("D: %d%nL: %d%n", d.size(), limit);
 	}
 
 	/*
