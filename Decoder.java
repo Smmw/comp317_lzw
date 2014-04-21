@@ -88,6 +88,8 @@ public class Decoder{
 				// Go to top of loop with new value
 			}
 		} catch (Exception e){
+			// Flush standard out just incase there is data there
+			System.out.flush();
 			// Print unfun message
 			System.err.println("A fatal error has occured.");
 			// Drive it home
