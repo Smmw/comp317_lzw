@@ -75,7 +75,7 @@ public class Decoder{
 				// Set last first byte
 				lastFirstByte = bytes.getLast();
 				// Check if a new pair needs to be added to the dictionary
-				if (lastValue >= 0 && d.size() <= limit){
+				if (lastValue >= 0 && d.size() < limit){
 					d.add(new Pair<Integer, Byte>(lastValue, lastFirstByte));
 				}
 				// Output data for value
@@ -99,7 +99,6 @@ public class Decoder{
 		}
 		// Flush the output stream
 		System.out.flush();
-		System.err.printf("D: %d%nL: %d%n", d.size(), limit);
 	}
 
 	/*
