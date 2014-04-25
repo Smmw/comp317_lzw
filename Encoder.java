@@ -40,7 +40,24 @@ public class Encoder{
 		try {
 			Byte b = (byte)System.in.read();
 			boolean cleanBreak = false;
+			double bytesIn = 0;
+			double bytesOut = 0;
+			int check = 1000;
 			while (System.in.available() > 0){
+				// Check if compression is adiquate
+				if (check <= 0){
+					// Inadiquate!
+					if (bytesIn - bytesOut > 0){
+						trie = generateTrie((int)Math.pow(2, maxBits)-2);
+					}
+					bytesIn = 0;
+					bytesOut = 0;
+					check = 1000;
+				}
+				// Decrement check counter
+				if (trie.isFull()){
+					check -= 1;
+				}
 				// Follow bytes untill they diverge from the trie
 				while (!trie.step(b)){
 					int temp = System.in.read();
@@ -49,9 +66,11 @@ public class Encoder{
 						break;
 					}
 					b = (byte)temp;
+					if (trie.isFull()) bytesIn += 1;
 				}
 				// Output number from the last node on the trie
 				System.out.printf("%d%n", trie.getIndex());
+				if (trie.isFull()) bytesOut += maxBits / 8.0;
 				// Add the mis-matching byte to the node on the trie
 				trie.add(b);
 				// Go to top of loop with mis-matching byte
