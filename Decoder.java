@@ -48,6 +48,9 @@ public class Decoder{
 			int value = Integer.parseInt(in.readLine());
 			int lastValue = -1;
 			Byte lastFirstByte = (byte)0;
+			double bytesIn = 0;
+			double bytesOut = 0;
+			int check = 1000;
 			// While not done
 			while (value >= 0){
 				// Get data for value
@@ -70,6 +73,9 @@ public class Decoder{
 				}
 				do {
 					bytes.addLast(p.getRight());
+					if (d.size() >= limit){
+						bytesIn += 1;
+					}
 					p = p.getLeft() != null? d.get(p.getLeft()) : null;
 				} while (p != null);
 				// Set last first byte
@@ -85,6 +91,20 @@ public class Decoder{
 				// Read new value, replace null with -1 to tell loop to end
 				lastValue = value;
 				String temp = in.readLine();
+				if (d.size() >= limit){
+					bytesOut += maxBits / 8.0;
+				}
+				if (check <= 0){
+					if (bytesIn - bytesOut > 0){
+						d = makeDictionary(limit);
+					}
+					bytesIn = 0;
+					bytesOut = 0;
+					check = 1000;
+				}
+				if (d.size() >= limit){
+					check -= 1;
+				}
 				value = temp == null ? -1 : Integer.parseInt(temp);
 				// Go to top of loop with new value
 			}
