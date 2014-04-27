@@ -21,6 +21,12 @@ public class Decoder{
 			if (args[0].equals("-b")){
 				try {
 					maxBits = Integer.parseInt(args[1]);
+					if (maxBits < 8){
+						System.err.printf("This encoder uses bytes as symbols. As I am not a " +
+							"wizard I can not encode a byte as less than a byte. -b may be " +
+							"between 8 and 64 inclusive.%n");
+						return;
+					}
 				} catch (NumberFormatException e) {
 					System.err.println("An integer must follow -b");
 					return;
