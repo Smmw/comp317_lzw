@@ -59,6 +59,13 @@ public class SuffixTrie<T>{
 	}
 
 	/*
+	 * Used to detetermine if the trie is full
+	 */
+	public boolean isFull(){
+		return this.index >= this.limit;
+	}
+
+	/*
 	 * Used to reset the position for stepping and adding
 	 */
 	public void reset(){
