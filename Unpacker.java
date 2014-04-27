@@ -36,10 +36,6 @@ class Unpacker {
 	// Input data
 	int inByte = 0;
 
-	inByte = 0x80;
-	System.err.printf("%02x %02x\n", inByte, inByte >>> 2);
-	inByte = 0;
-
 	// Intermediate step
 	int inBytePiece = 0;
 	int phraseBits = 0;
