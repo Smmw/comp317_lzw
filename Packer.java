@@ -8,7 +8,9 @@
  * 1183446
  */
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 class Packer {
     /**
@@ -25,6 +27,15 @@ class Packer {
 
     public static void main(String[] args) {
 	int maxPhrase = 255;
+	int maxBits;
+
+	// Get the max number of bits to output
+	try {
+	    maxBits = Integer.parseInt(args[0]);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return;
+	}
 
 	// Input data
 	String inLine;
@@ -48,12 +59,14 @@ class Packer {
 		try {
 		    phraseNumber = Integer.parseInt(inLine);
 		} catch (Exception e) {
-		    System.err.printf("Invalid integer (%s)\n", inLine);
+		    //System.err.printf("Invalid integer (%s)\n", inLine);
 		    continue;
 		}
 		
 		// Prepare to pack the bits
 		phraseBits = log2(maxPhrase);
+		// Constrain the maximum number of output bits
+		phraseBits = phraseBits > maxBits ? maxBits : phraseBits;
 		
 		// Output as many bytes as we need to
 		while (phraseBits > outBits) {
@@ -65,7 +78,7 @@ class Packer {
 		    // OR in the bits
 		    outByte |= phraseNumberPiece;
 		    // Flush the byte
-		    System.out.printf("%x\n", outByte);
+		    System.out.write((int)outByte);
 		    outByte = 0;
 		    outBits = 8;
 		}
@@ -82,7 +95,7 @@ class Packer {
 
 		// Flush the byte if we need to
 		if (outBits == 0) {
-		    System.out.printf("%x\n", outByte);
+		    System.out.write((int)outByte);
 		    outByte = 0;
 		    outBits = 8;
 		}
@@ -94,9 +107,12 @@ class Packer {
 	    // If we have data left, right pad with zero
 	    if (outBits < 8) {
 		outByte <<= outBits;
-		System.out.printf("%x\n", outByte);
+		System.out.write((int)outByte);
 	    }
-	} catch (Exception e) {
+
+	    // Flush the output stream
+	    System.out.flush();
+	} catch (IOException e) {
 	    System.err.println("Failed to read from input stream!");
 	    return;
 	}
