@@ -27,13 +27,25 @@ class Packer {
 
     public static void main(String[] args) {
 	int maxPhrase = 255;
-	int maxBits;
+	int maxBits = 20;
 
-	// Get the max number of bits to output
-	try {
-	    maxBits = Integer.parseInt(args[0]);
-	} catch (Exception e) {
-	    e.printStackTrace();
+	// Read args
+	// -b Maximum bits per phrase
+	// NOTE: This is Severin's code
+	if (args.length == 2){
+	    if (args[0].equals("-b")){
+		try {
+		    maxBits = Integer.parseInt(args[1]);
+		} catch (NumberFormatException e) {
+		    System.err.println("An integer must follow -b");
+		    return;
+		}
+	    } else { 
+		System.err.println("The only valid argument is -b");
+		return;
+	    }
+	} else if (args.length != 0){
+	    System.err.println("The only valid argument is -b maxnumbits");
 	    return;
 	}
 
