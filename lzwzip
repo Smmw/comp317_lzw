@@ -1,0 +1,24 @@
+#!/bin/bash
+
+BITS=20
+
+while getopts ":b:" opt; do
+    case $opt in
+	b)
+	    export BITS=$OPTARG
+	    ;;
+	\?)
+	    echo "Invalid option: -$OPTARG" >&2
+	    exit 1
+	    ;;
+	:)
+	    echo "Option -$OPTARG requires an argument." >&2
+	    exit 1
+	    ;;
+    esac
+done
+
+NAME="${BASH_ARGV%.*}"
+
+java Encoder -b $BITS < $BASH_ARGV | java Packer -b $BITS > $NAME.lzw
+
